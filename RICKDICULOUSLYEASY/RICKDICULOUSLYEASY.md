@@ -2,7 +2,7 @@ Source: https://www.vulnhub.com/entry/rickdiculouslyeasy-1,207/
 Target: 10.0.0.26  
 Diffuculty: Easy
 
-**In order to complete this CTF we must get all 130 points, so we need to find every flag until it adds up to 130.**
+*In order to complete this CTF we must get all 130 points, so we need to find every flag until it adds up to 130.**
 
 ## NMAP
 
@@ -122,7 +122,7 @@ We can try brute forcing the SSH login using the usernames we found and the pass
 ![image](https://user-images.githubusercontent.com/76552238/157479594-11bbfad7-190a-46d6-86ee-8ad1cddaaf1c.png)
 
 Ah get it , winter summer, never mind.
-After loggin to the machine we can get another flag.
+After logging to the machine we can get another flag.
 
 ![image](https://user-images.githubusercontent.com/76552238/157479930-ee530d1e-05ef-4610-bbd3-3de597964c77.png)
 
@@ -148,11 +148,11 @@ Let's go to Rick's folder.
 
 ![image](https://user-images.githubusercontent.com/76552238/157482387-2ea3d60c-4a47-4f4c-b1b1-b19523afd291.png)
 
-The directory 'ThisDoesntContainAnyFlags' suprisingly doesn't have any flag (FOR REAL).
+The directory 'ThisDoesntContainAnyFlags' surprisingly doesn't have any flag (FOR REAL).
 
 ![image](https://user-images.githubusercontent.com/76552238/157489833-038b2985-347b-44ff-99e2-893cc62763bb.png)
 
-The second directory is RICKS_SAFE, it contains an exectuable named safe.
+The second directory is RICKS_SAFE, it contains an executable named safe.
 
 ![image](https://user-images.githubusercontent.com/76552238/157482733-8ce9a526-525b-4627-8c15-f59ce2b55686.png)
 
@@ -183,4 +183,4 @@ Now that we are logged in the user 'RickSanchez' let's see if he is part of the 
 
 ![image](https://user-images.githubusercontent.com/76552238/157486650-deb32134-bb58-4dce-90d8-ec8b5bed23ec.png)
 
-And with 130 points and 0 more to go the CTF is officaily completed.
+And with 130 points and 0 more to go the CTF is officially completed.
