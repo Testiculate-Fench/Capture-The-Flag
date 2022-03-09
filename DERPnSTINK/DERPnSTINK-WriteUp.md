@@ -1,5 +1,5 @@
-Source: https://www.vulnhub.com/entry/derpnstink-1,221/
-Target: 10.0.0.28
+Source: https://www.vulnhub.com/entry/derpnstink-1,221/  
+Target: 10.0.0.28  
 Difficulty: Medium
 
 ## NMAP 
