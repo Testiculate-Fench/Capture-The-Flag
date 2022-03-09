@@ -2,7 +2,7 @@ Source: https://www.vulnhub.com/entry/rickdiculouslyeasy-1,207/
 Target: 10.0.0.26  
 Diffuculty: Easy
 
-*In order to complete this CTF we must get all 130 points, so we need to find every flag until it adds up to 130.**
+**In order to complete this CTF we must get all 130 points, so we need to find every flag until it adds up to 130.**
 
 ## NMAP
 
@@ -22,7 +22,7 @@ in FTP which allows to enter as an anonymous user and thuse requires no password
 
 ![image](https://user-images.githubusercontent.com/76552238/157472418-8977783d-6734-47ac-a750-87a14eea9baa.png)
 
-And It Worked...
+And It Worked...  
 We can get our first flag.
 
 FLAG{Whoa this is unexpected} - 10 Points
