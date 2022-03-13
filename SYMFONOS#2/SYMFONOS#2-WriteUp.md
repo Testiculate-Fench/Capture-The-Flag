@@ -1,6 +1,8 @@
-Target: 10.0.0.32
-Difficulty: Medium
-Source: https://www.vulnhub.com/entry/symfonos-2,331/
+Target: 10.0.0.32  
+Difficulty: Medium  
+Source: https://www.vulnhub.com/entry/symfonos-2,331/  
+
+The Write Up isn't really 500 lines, there is very long text file that takes about 300 lines.
 
     $ nmap -sS -A -T4 -p- 10.0.0.32
 
