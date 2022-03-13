@@ -502,7 +502,7 @@ It seems we can run mysql as root.
     | performance_schema |
     +--------------------+
 
-After playing with it for a while, I didn't find anything in any database or table. After reading the manual page for 'mysql', turns out 'mysql' has an options to run bash commands, we can use \! /bin/bash and get a shell as root.
+After playing with it for a while, I didn't find anything in any database or table. After reading the manual page for 'mysql', turns out 'mysql' has an options to run bash commands, we can use '\\! /bin/bash' and get a shell as root.
 
     $ sudo mysql -uroot
     MariaDB [(none)]> \! /bin/bash
