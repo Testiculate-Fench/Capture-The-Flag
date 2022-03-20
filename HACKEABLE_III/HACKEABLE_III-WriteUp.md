@@ -1,8 +1,8 @@
 <!--Getting root and final flag isn't very clear. Should try to debug and see why it didn't work-->
 
-Target: 10.0.0.34
-Difficulty: Medium
-Source: https://www.vulnhub.com/entry/hackable-iii,720/
+Target: 10.0.0.34  
+Difficulty: Medium  
+Source: https://www.vulnhub.com/entry/hackable-iii,720/  
 
 ## ***NMAP***
 
