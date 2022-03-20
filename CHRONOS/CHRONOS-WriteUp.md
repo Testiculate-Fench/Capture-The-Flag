@@ -1,6 +1,6 @@
-Target: 10.0.0.35
-Difficulty: Medium
-Source: https://www.vulnhub.com/entry/chronos-1,735/
+Target: 10.0.0.35  
+Difficulty: Medium  
+Source: https://www.vulnhub.com/entry/chronos-1,735/  
 
 ## ***NMAP***
 
