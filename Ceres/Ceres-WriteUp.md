@@ -186,7 +186,7 @@ Going to the ***/home/giuseppe/.ssh*** directory we have a private key, but it's
         Commands:                                                                                              
             /usr/bin/python  
 
-The user ***'www-data'*** can run the ***python*** command as the user ***'giuseppe'*** without a password. We can open a python shell and open a bash shell as the user giuseppe.
+The user ***'www-data'*** can run the ***python*** command as the user ***'giuseppe'*** without a password. We can open a python shell and open a bash shell as the user ***'giuseppe'***.
 
     $ sudo -u giuseppe python
     >>> import os
