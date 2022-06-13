@@ -33,7 +33,7 @@ Let's start by enumerating HTTP on port 80.
     /planet               (Status: 301) [Size: 307] [--> http://10.0.0.17/planet/]
     /robots.txt           (Status: 200) [Size: 27]  
 
-Checking our the robots.txt file on the server we get a rabbit hole.
+Checking our the robots.txt file on the server we have a rabbit hole.
 
 ![image](https://user-images.githubusercontent.com/76552238/172728630-34c8ef6d-445d-434a-8599-cebd506e9756.png)
 
