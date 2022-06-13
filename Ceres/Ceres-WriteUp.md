@@ -207,7 +207,7 @@ Let's upload ***pspy64*** to the remote machine and see if there are any cron ta
     2022/06/09 01:52:01 CMD: UID=0    PID=621    | /usr/sbin/CRON -f 
     2022/06/09 01:52:01 CMD: UID=0    PID=622    | /bin/sh -c /opt/important.py 
 
-The file ***/opt/important.py*** is run being by root as part of the cron jobs.
+The file ***/opt/important.py*** is being run by root as part of the cron jobs.
 
     $ cat /opt/important.py
 
