@@ -26,7 +26,7 @@
 
 ## ***HTTP***
 
-Let's start with enumerating HTTP on port 80.
+Let's start by enumerating HTTP on port 80.
 
     # gobuster dir -u http://10.0.0.17/ -w /usr/share/wordlists/dirbuster/directory-list-1.0.txt -x txt, html, php
 
