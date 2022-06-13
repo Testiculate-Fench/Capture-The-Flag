@@ -199,7 +199,7 @@ We can now read the first flag.
 
     $ cat /home/giuseppe/user.txt
                                                                                  
-~~94RwRK2XuVdjThtn6GK3kGAXe~~
+    94RwRK2XuVdjThtn6GK3kGAXe
 
 Let's upload ***pspy64*** to the remote machine and see if there are any cron tabs running.
 
